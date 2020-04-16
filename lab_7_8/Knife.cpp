@@ -24,7 +24,7 @@ unsigned int Knife::use()
 
 std::string Knife::toString()
 {
-    return Weapon::toString() + "\nKnife sharpness: " + std::to_string(sharpness);
+    return "Knife";
 }
 
 

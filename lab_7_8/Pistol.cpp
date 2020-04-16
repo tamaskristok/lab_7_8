@@ -27,8 +27,7 @@ unsigned int Pistol::use()
 
 std::string Pistol::toString()
 {
-    return Weapon::toString() + "\nPistol params\nclipsize: " + std::to_string(clipSize) + "\nTotalbullets:" + std::to_string(totalBullets) + "\nBulletsinclip: " + std::to_string(bulletsInClip);
-
+    return "Pistol";
 }
 
 int Pistol::get_clipSize()

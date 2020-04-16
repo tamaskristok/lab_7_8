@@ -34,7 +34,7 @@ bool Weapon::validate_input(unsigned int dmg)
 
 std::string Weapon::toString()
 {
-    return "=================================\nDamage: " + std::to_string(damage);
+    return "";
 }
 
 
@@ -45,5 +45,5 @@ unsigned int Weapon::use()
     {
         damage = 0;
     }
-    return damage;
+    return damage + 1 ;
 }

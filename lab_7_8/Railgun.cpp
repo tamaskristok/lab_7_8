@@ -3,14 +3,13 @@
 unsigned int Railgun::use()
 {
     Weapon::use();
-    this->set_damage(this->get_damage() - 1);
     this->energy -= 10;
     if (this->energy < 0)
     {
         this->energy = 0;
         return 0;
     }
-    return this->get_damage();
+    return this->get_damage() + 1 ;
 }
 
 
@@ -25,7 +24,7 @@ void Railgun::recharge()
 
 std::string Railgun::toString()
 {
-    return Weapon::toString() + "\nRailgun energy:" + std::to_string(this->energy);
+    return "Railgun";
 }
 
 void Railgun::set_energy(int eng)
