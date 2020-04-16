@@ -1,8 +1,12 @@
 #include "Player.h"
+#include <vector>
 using namespace std;
 
 Player::Player(std::string name, unsigned health, unsigned maxWeaponsCount, Weapon* weapon)
 {
+	weaponsCount = 0;
+	this->selectedWeaponIndex = 0;
+	this->weapons = NULL;
 	setName(name);
 	equipWeapon(weapon);
 	this->health = health;
@@ -61,10 +65,11 @@ bool Player::equipWeapon(Weapon* weapon)
 			newWeapon[i] = weapons[i];
 		}
 		newWeapon[weaponsCount - 1] = weapon;
+		selectedWeaponIndex = weaponsCount -1 ;
 
-		delete[] weapons;
+		delete [] weapons;
 		weapons = newWeapon;
-		delete[] newWeapon;
+
 
 		return true;
 	}
@@ -140,23 +145,28 @@ bool Player::takeDamage(unsigned damage)
 {
 	if (isAlive() == true)
 	{
-		health = getHealth() - damage;
-		if (damage > getHealth())
+		if (damage > health)
 		{
 			health = 0;
+		}
+		else 
+		{
+			health -= damage;
 		}
 		return true;
 	}
 	return false;
 }
 
-/*ITT VANNAK GONDOK*/
 bool Player::attack(Player& enemy) const
 {
-
 	if (isAlive() == true)
 	{
-		enemy.takeDamage();
+		enemy.takeDamage(this->getSelectedWeapon()->use());
+		if(!enemy.isAlive())
+		{
+			cout << this->getName() << " killed " << enemy.getName() << " with a(n) " << this->getSelectedWeapon()->toString() << std::endl;
+		}
 		return true;
 	}
 
@@ -177,23 +187,24 @@ bool Player::isAlive() const
 ostream& operator<<(ostream& os, const Player& right)
 {
 	if (right.isAlive() && (right.getWeaponsCount() > 0)) {
-		os << right.getName() << "is (not) alive; helath: " << right.getHealth() << "; has " << right.getWeaponsCount()
-			<< " weapon(s); " << right.getSelectedWeapon() << endl;
+		os << right.getName() << " is  alive; health: " << right.getHealth() << "; has " << right.getWeaponsCount()
+			<< " weapon(s); selected " << right.getSelectedWeapon()->toString() << endl;
 		return os;
 	}
 	if (right.isAlive() && (right.getWeaponsCount() == 0)) {
-		os << right.getName() << "is (not) alive; helath: " << right.getHealth() << "; has " << right.getWeaponsCount()
+		os << right.getName() << " is alive; health: " << right.getHealth() << "; has " << right.getWeaponsCount()
 			<< " weapon(s); selected no weapon" << endl;
 		return os;
 	}
 	if (!(right.isAlive()) && (right.getWeaponsCount() > 0)) {
-		os << right.getName() << "is (not) alive; helath: " << right.getHealth() << "; has " << right.getWeaponsCount()
-			<< " weapon(s); " << right.getSelectedWeapon() << endl;
+		os << right.getName() << " is not alive; health: " << right.getHealth() << "; has " << right.getWeaponsCount()
+			<< " weapon(s); selected " << right.getSelectedWeapon()->toString() << endl;
 		return os;
 	}
 	if (!(right.isAlive()) && (right.getWeaponsCount() == 0)) {
-		os << right.getName() << "is (not) alive; helath: " << right.getHealth() << "; has " << right.getWeaponsCount()
+		os << right.getName() << " is not alive; health: " << right.getHealth() << "; has " << right.getWeaponsCount()
 			<< " weapon(s); selected no weapon" << endl;
 		return os;
 	}
+	return os;
 }
