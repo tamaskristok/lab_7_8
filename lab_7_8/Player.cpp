@@ -2,16 +2,6 @@
 #include <vector>
 using namespace std;
 
-Player::Player(std::string name, unsigned health, unsigned maxWeaponsCount, Weapon* weapon)
-{
-	weaponsCount = 0;
-	this->selectedWeaponIndex = 0;
-	this->weapons = NULL;
-	setName(name);
-	equipWeapon(weapon);
-	this->health = health;
-}
-
 
 Player::~Player() 
 {
@@ -162,6 +152,10 @@ bool Player::attack(Player& enemy) const
 {
 	if (isAlive() == true)
 	{
+		if (this->getSelectedWeapon() == nullptr)
+		{
+			return false; 
+		}
 		enemy.takeDamage(this->getSelectedWeapon()->use());
 		if(!enemy.isAlive())
 		{

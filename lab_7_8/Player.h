@@ -1,5 +1,7 @@
 #pragma once
 #include "Weapon.h"
+#include <string>
+
 class Player
 {
 private:
@@ -9,9 +11,13 @@ private:
     int weaponsCount;
     Weapon** weapons;
     unsigned selectedWeaponIndex;
-
+    /*std::string name, unsigned health=100,unsigned maxWeaponsCount=5, Weapon* weapon=nullptr )*/
 public:
-    Player(std::string name = "Unknown Soldier", unsigned health = 100, unsigned maxWeaponsCount = 5, Weapon* weapon = NULL);
+    Player(std::string name = "Unknown Soldier", unsigned health = 100, unsigned maxWeaponsCount = 5, Weapon* weapon = NULL) : name(name), health(health), maxWeaponsCount(maxWeaponsCount)  {
+        weaponsCount = 0;
+        setName(name);
+        equipWeapon(weapon);
+    }
     ~Player();
 
     std::string getName() const;
